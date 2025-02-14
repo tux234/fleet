@@ -762,38 +762,40 @@ spec:
   contributors: groob,ddribeiro
   configuration_profile: |
     <?xml version="1.0" encoding="UTF-8"?>
-    <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-    <plist version="1.0">
-    <dict>
-      <key>PayloadContent</key>
-      <array>
-        <dict>
-          <key>PayloadDisplayName</key>
-          <string>Login Window #1</string>
-          <key>PayloadIdentifier</key>
-          <string>com.apple.loginwindow.CE506065-7C0E-434E-8B8C-12E164116C94</string>
-          <key>PayloadType</key>
-          <string>com.apple.loginwindow</string>
-          <key>PayloadUUID</key>
-          <string>CE506065-7C0E-434E-8B8C-12E164116C94</string>
-          <key>PayloadVersion</key>
-          <integer>1</integer>
-          <key>com.apple.login.mcx.DisableAutoLoginClient</key>
-          <true/>
-        </dict>
-      </array>
-      <key>PayloadDisplayName</key>
-      <string>Disable Automatic Login</string>
-      <key>PayloadIdentifier</key>
-      <string>com.fleetdm.disableautomaticlogin.F07E2CB5-56CC-4699-B061-EAA253220BA8</string>
-      <key>PayloadType</key>
-      <string>Configuration</string>
-      <key>PayloadUUID</key>
-      <string>F07E2CB5-56CC-4699-B061-EAA253220BA8</string>
-      <key>PayloadVersion</key>
-      <integer>1</integer>
-    </dict>
-    </plist>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>PayloadDisplayName</key>
+			<string>Login Window #1</string>
+			<key>PayloadIdentifier</key>
+			<string>com.apple.loginwindow.CE506065-7C0E-434E-8B8C-12E164116C94</string>
+			<key>PayloadType</key>
+			<string>com.apple.loginwindow</string>
+			<key>PayloadUUID</key>
+			<string>CE506065-7C0E-434E-8B8C-12E164116C94</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+			<key>DisableFDEAutoLogin</key>
+			<true/>
+			<key>com.apple.login.mcx.DisableAutoLoginClient</key>
+			<true/>
+		</dict>
+	</array>
+	<key>PayloadDisplayName</key>
+	<string>Disable Automatic Login</string>
+	<key>PayloadIdentifier</key>
+	<string>com.fleetdm.disableautomaticlogin.F07E2CB5-56CC-4699-B061-EAA253220BA8</string>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>F07E2CB5-56CC-4699-B061-EAA253220BA8</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>
 ---
 apiVersion: v1
 kind: policy
