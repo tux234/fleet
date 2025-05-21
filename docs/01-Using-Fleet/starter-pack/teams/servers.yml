@@ -1,0 +1,5 @@
+name: Servers
+policies:
+software:
+controls:
+  macos_settings:

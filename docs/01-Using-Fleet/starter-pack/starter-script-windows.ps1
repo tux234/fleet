@@ -1,1 +1,0 @@
-starter-script-windows.ps1

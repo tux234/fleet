@@ -1,0 +1,5 @@
+name: Compliance exclusions
+policies:
+software:
+controls:
+  macos_settings:
