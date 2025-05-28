@@ -36,7 +36,7 @@
 		</dict>
 	</array>
 	<key>PayloadDescription</key>
-	<string>Configures a Mac to require passwords that are 10 character long</string>
+	<string>Configures a Mac to require passwords that are 10 characters long</string>
 	<key>PayloadDisplayName</key>
 	<string>Password policy - require 10 characters</string>
 	<key>PayloadIdentifier</key>

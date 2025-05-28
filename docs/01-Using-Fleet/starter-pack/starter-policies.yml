@@ -1,19 +1,19 @@
-- name: macOS - Enable FileVault
+- name: macOS - FileVault enabled
   platform: darwin
   description: This policy checks if FileVault (disk encryption) is enabled.
   resolution: Ask your IT admin to turn on disk encryption in Fleet.
   query: SELECT 1 FROM filevault_status WHERE status = 'FileVault is On.';
-- name: macOS - Disable guest account
+- name: macOS - Guest account disabled
   platform: darwin
   description: This policy checks if the guest account is disabled.
   resolution: An an IT admin, deploy a macOS, login window profile with the DisableGuestAccount option set to true.
   query: SELECT 1 FROM managed_policies WHERE domain='com.apple.loginwindow' AND username = '' AND name='DisableGuestAccount' AND CAST(value AS INT) = 1;
-- name: macOS - Enable Firewall
+- name: macOS - Firewall enabled
   platform: darwin
   description: This policy checks if Firewall is enabled.
   resolution: An an IT admin, deploy a macOS, Firewall profile with the EnableFirewall option set to true.
   query: SELECT 1 FROM managed_policies WHERE domain='com.apple.security.firewall' AND username = '' AND name='EnableFirewall' AND CAST(value AS INT) = 1;
-- name: macOS - Require 10 character password
+- name: macOS - 10 character password required
   platform: darwin
   description: This policy checks if the end user is required to enter a password, with at least 10 characters, to unlock the host.
   resolution: An an IT admin, deploy a macOS, screensaver profile with the askForPassword option set to true and minLength option set to 10.
@@ -31,7 +31,7 @@
             name='minLength' AND 
             CAST(value AS INT) <= 10
         );
-- name: macOS - Enable screen saver after 20 minutes
+- name: macOS - Screen saver enabled after 20 minutes
   platform: darwin
   description: This policy checks if maximum amount of time (in minutes) the device is allowed to sit idle before the screen is locked. End users can select any value less than the specified maximum.
   resolution: An an IT admin, deploy a macOS, screen saver profile with the maxInactivity option set to 20 minutes.
@@ -50,22 +50,22 @@
             name='idleTime' AND 
             CAST(value AS INT) > 1200
         );
-- name: Windows - Enable BitLocker
+- name: Windows - BitLocker enabled
   platform: windows
   description: "This policy checks if BitLocker (disk encryption) is enabled on the C: volume."
   resolution: As an IT admin, turn on disk encryption in Fleet.
   query: SELECT * FROM bitlocker_info WHERE drive_letter='C:' AND protection_status = 1;
-- name: Windows - Disable guest account
+- name: Windows - Guest account disabled
   platform: windows
   description: This policy checks if the guest account is disabled. The Guest account allows unauthenticated network users to gain access to the system.
   resolution: "As an IT admin, deploy a Windows profile with the Accounts_EnableGuestAccountStatus option documented here: https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-localpoliciessecurityoptions#accounts_enableguestaccountstatus"
   query: SELECT 1 FROM mdm_bridge where mdm_command_input = "<SyncBody><Get><CmdID>1</CmdID><Item><Target><LocURI>./Device/Vendor/MSFT/Policy/Result/LocalPoliciesSecurityOptions/Accounts_EnableGuestAccountStatus</LocURI></Target></Item></Get></SyncBody>" and CAST(mdm_command_output AS INT) = 0;
-- name: Windows - Require 10 character password
+- name: Windows - 10 character password required
   platform: windows
   description: This policy checks if the end user is required to enter a password, with at least 10 characters, to unlock the host.
   resolution: "As an IT admin, deploy a Windows profile with the DevicePasswordEnabled and MinDevicePasswordLength option documented here: https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-devicelock"
   query: SELECT 1 FROM mdm_bridge where mdm_command_input = "<SyncBody><Get><CmdID>1</CmdID><Item><Target><LocURI>./Device/Vendor/MSFT/Policy/Result/DeviceLock/DevicePasswordEnabled</LocURI></Target></Item></Get></SyncBody>" and CAST(mdm_command_output AS INT) = 0;
-- name: Windows - Enable screen saver after 20 minutes
+- name: Windows - Screen saver enabled after 20 minutes
   platform: windows
   description: This policy checks if maximum amount of time (in minutes) the device is allowed to sit idle before the screen is locked. End users can select any value less than the specified maximum.
   resolution: "As an IT admin, to deploy a Windows profile with the MaxInactivityTimeDeviceLock option documented here: https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-devicelock#maxinactivitytimedevicelock"
@@ -88,185 +88,3 @@
   description: This policy checks if disk encryption is enabled.
   resolution: Disk encryption can only be configured during initial operating system install. Please re-install your operating system ensuring disk encryption is enabled.
   platform: linux
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-apiVersion: v1
-kind: policy
-spec:
-  name: Ensure a password is required to wake the computer from sleep or screen saver is enabled
-  platforms: macOS
-  platform: darwin
-  description: Checks that password is required to wake the computer from sleep or screen saver is enabled.
-  resolution: |
-    Automated method:
-    Ask your system administrator to deploy an MDM profile that ensures a password is required to wake the computer from sleep or screen saver is enabled.
-    Graphical method:
-      Perform the following steps to ensure a password is required to wake the computer from sleep or screen saver is enabled:
-        1. Open System Settings
-        2. Select Lock Screen
-        3. Verify that "Require password after screensaver begins or display is turned
-        off" is set with "After 0 seconds" or "After 5 seconds"
-  query: |-
-    SELECT 1 WHERE 
-      EXISTS (
-        SELECT 1 FROM managed_policies WHERE 
-            domain='com.apple.screensaver' AND 
-            name='askForPassword' AND 
-            (value = 1 OR value = 'true') AND 
-            username = ''
-        )
-      AND EXISTS (
-        SELECT 1 FROM managed_policies WHERE 
-            domain='com.apple.screensaver' AND 
-            name='askForPasswordDelay' AND 
-            value <= 5 AND 
-            username = ''
-        )
-      AND NOT EXISTS (
-        SELECT 1 FROM managed_policies WHERE 
-            domain='com.apple.screensaver' AND 
-            name='askForPassword' AND 
-            (value != 1 AND value != 'true')
-        )
-      AND NOT EXISTS (
-        SELECT 1 FROM managed_policies WHERE 
-            domain='com.apple.screensaver' AND 
-            name='askForPasswordDelay' AND 
-            value > 5
-        );  
-  purpose: Informational
-  tags: compliance, CIS, CIS_Level1, premium,
-  contributors: sharon-fdm,ddribeiro
-  configuration_profile: |
-    <?xml version="1.0" encoding="UTF-8"?>
-    <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-    <plist version="1.0">
-    <dict>
-      <key>PayloadContent</key>
-      <array>
-        <dict>
-          <key>PayloadDisplayName</key>
-          <string>Screensaver</string>
-          <key>PayloadIdentifier</key>
-          <string>com.apple.screensaver.AB633B1B-EAEF-4AB6-B5F6-DE67193267E9</string>
-          <key>PayloadType</key>
-          <string>com.apple.screensaver</string>
-          <key>PayloadUUID</key>
-          <string>AB633B1B-EAEF-4AB6-B5F6-DE67193267E9</string>
-          <key>PayloadVersion</key>
-          <integer>1</integer>
-          <key>askForPassword</key>
-          <true/>
-          <key>askForPasswordDelay</key>
-          <integer>0</integer>
-        </dict>
-      </array>
-      <key>PayloadDisplayName</key>
-      <string>Require password after screensaver or sleep</string>
-      <key>PayloadIdentifier</key>
-      <string>com.fleetdm.password_policy</string>
-      <key>PayloadType</key>
-      <string>Configuration</string>
-      <key>PayloadUUID</key>
-      <string>5A2DC0F2-C5FE-4808-9083-D9879684D7FA</string>
-      <key>PayloadVersion</key>
-      <integer>1</integer>
-    </dict>
-    </plist>
----
-apiVersion: v1
-kind: policy
-spec:
-  name: Ensure auto-update is enabled
-  platforms: macOS
-  platform: darwin
-  description: Checks that the system is configured via MDM to automatically install updates.
-  resolution: "Ask your system administrator to deploy an MDM profile that enables automatic updates."
-  query: |
-    SELECT 1 WHERE 
-      EXISTS (
-        SELECT 1 FROM managed_policies WHERE 
-            domain='com.apple.SoftwareUpdate' AND 
-            name='AutomaticCheckEnabled' AND 
-            (value = 1 OR value = 'true') AND 
-            username = ''
-        )
-      AND NOT EXISTS (
-        SELECT 1 FROM managed_policies WHERE 
-            domain='com.apple.SoftwareUpdate' AND 
-            name='AutomaticCheckEnabled' AND 
-            (value != 1 AND value != 'true')
-        );  
-  purpose: Informational
-  tags: compliance, CIS, CIS_Level1, premium
-  contributors: sharon-fdm,ddribeiro
-  configuration_profile: |
-    <?xml version="1.0" encoding="UTF-8"?>
-    <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-    <plist version="1.0">
-    <dict>
-      <key>PayloadContent</key>
-      <array>
-        <dict>
-          <key>AutomaticCheckEnabled</key>
-          <true/>
-          <key>PayloadDisplayName</key>
-          <string>Software Update</string>
-          <key>PayloadIdentifier</key>
-          <string>com.apple.SoftwareUpdate.8567CAE0-4F08-49B7-9DEE-EE7A1FB232E4</string>
-          <key>PayloadType</key>
-          <string>com.apple.SoftwareUpdate</string>
-          <key>PayloadUUID</key>
-          <string>8567CAE0-4F08-49B7-9DEE-EE7A1FB232E4</string>
-          <key>PayloadVersion</key>
-          <integer>1</integer>
-        </dict>
-      </array>
-      <key>PayloadDisplayName</key>
-      <string>Automatically install updates</string>
-      <key>PayloadIdentifier</key>
-      <string>com.fleetdm.automatically_install_updates</string>
-      <key>PayloadType</key>
-      <string>Configuration</string>
-      <key>PayloadUUID</key>
-      <string>C9797096-D3DD-4BB4-85B0-6679209BA78F</string>
-      <key>PayloadVersion</key>
-      <integer>1</integer>
-    </dict>
-    </plist>
----
-apiVersion: v1
-kind: policy
-spec:
-  name: Screen lock enabled (Windows)
-  query: SELECT 1 FROM registry WHERE path = 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\InactivityTimeoutSecs' AND CAST(data as INTEGER) <= 1800;
-  description: "Checks if the screen lock is enabled and configured to lock the system within 30 minutes or less."
-  resolution: "Contact your IT administrator to enable the Interactive Logon: Machine inactivity limit setting with a value of 1800 seconds or lower."
-  powershell: |
-    $regPath = 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System'
-    $value = (Get-ItemProperty -Path $regPath -Name 'InactivityTimeoutSecs' -ErrorAction SilentlyContinue).InactivityTimeoutSecs
-    if ($value -and ([int]$value) -le 1800) {
-        Write-Output 1
-    } else {
-        Write-Output 0
-    }
-  tags: compliance, hardening, built-in
-  platform: windows
-  contributors: GuillaumeRoss
