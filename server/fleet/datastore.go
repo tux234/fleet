@@ -573,6 +573,8 @@ type Datastore interface {
 	InsertSoftwareUninstallRequest(ctx context.Context, executionID string, hostID uint, softwareInstallerID uint) error
 	// GetSoftwareTitleNameFromExecutionID returns the software title name associated with the provided software install execution ID.
 	GetSoftwareTitleNameFromExecutionID(ctx context.Context, executionID string) (string, error)
+	// GetSoftwareInfoFromExecutionID returns the software title name and self_service flag associated with the provided software install execution ID.
+	GetSoftwareInfoFromExecutionID(ctx context.Context, executionID string) (SoftwareInfo, error)
 
 	///////////////////////////////////////////////////////////////////////////////
 	// SoftwareStore

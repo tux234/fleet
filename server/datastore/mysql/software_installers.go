@@ -1074,7 +1074,8 @@ VALUES
 			'installer_filename', '',
 			'version', 'unknown',
 			'software_title_name', ?,
-			'user', (SELECT JSON_OBJECT('name', name, 'email', email, 'gravatar_url', gravatar_url) FROM users WHERE id = ?)
+			'user', (SELECT JSON_OBJECT('name', name, 'email', email, 'gravatar_url', gravatar_url) FROM users WHERE id = ?),
+			'self_service', ?
 		)
 	)`
 
@@ -1123,6 +1124,7 @@ VALUES
 			executionID,
 			installerDetails.TitleName,
 			userID,
+			userID == nil, // self_service is true if userID is nil
 		)
 		if err != nil {
 			return err
@@ -2306,8 +2308,21 @@ func (ds *Datastore) HasSelfServiceSoftwareInstallers(ctx context.Context, hostP
 }
 
 func (ds *Datastore) GetSoftwareTitleNameFromExecutionID(ctx context.Context, executionID string) (string, error) {
+	info, err := ds.GetSoftwareInfoFromExecutionID(ctx, executionID)
+	if err != nil {
+		return "", err
+	}
+	return info.TitleName, nil
+}
+
+type SoftwareInfo struct {
+	TitleName   string
+	SelfService bool
+}
+
+func (ds *Datastore) GetSoftwareInfoFromExecutionID(ctx context.Context, executionID string) (SoftwareInfo, error) {
 	stmt := `
-	SELECT st.name
+	SELECT st.name, COALESCE(hsi.self_service, 0) as self_service
 	FROM software_titles st
 	INNER JOIN software_installers si ON si.title_id = st.id
 	INNER JOIN host_software_installs hsi ON hsi.software_installer_id = si.id
@@ -2315,7 +2330,7 @@ func (ds *Datastore) GetSoftwareTitleNameFromExecutionID(ctx context.Context, ex
 
 	UNION
 
-	SELECT st.name
+	SELECT st.name, COALESCE(ua.payload->'$.self_service', 0) as self_service
 	FROM
 		software_titles st
 		INNER JOIN software_installers si ON si.title_id = st.id
@@ -2325,13 +2340,14 @@ func (ds *Datastore) GetSoftwareTitleNameFromExecutionID(ctx context.Context, ex
 	WHERE
 		ua.execution_id = ? AND
 		ua.activity_type IN ('software_install', 'software_uninstall')
+	LIMIT 1
 	`
-	var name string
-	err := sqlx.GetContext(ctx, ds.reader(ctx), &name, stmt, executionID, executionID)
+	var info SoftwareInfo
+	err := sqlx.GetContext(ctx, ds.reader(ctx), &info, stmt, executionID, executionID)
 	if err != nil {
-		return "", ctxerr.Wrap(ctx, err, "get software title name from execution ID")
+		return SoftwareInfo{}, ctxerr.Wrap(ctx, err, "get software info from execution ID")
 	}
-	return name, nil
+	return info, nil
 }
 
 func (ds *Datastore) GetSoftwareInstallersWithoutPackageIDs(ctx context.Context) (map[uint]string, error) {

@@ -15,7 +15,9 @@ import (
 	"github.com/fleetdm/fleet/v4/pkg/file"
 	"github.com/fleetdm/fleet/v4/pkg/scripts"
 	"github.com/fleetdm/fleet/v4/server/authz"
+	authz_ctx "github.com/fleetdm/fleet/v4/server/contexts/authz"
 	"github.com/fleetdm/fleet/v4/server/contexts/ctxerr"
+	hostctx "github.com/fleetdm/fleet/v4/server/contexts/host"
 	"github.com/fleetdm/fleet/v4/server/contexts/license"
 	"github.com/fleetdm/fleet/v4/server/contexts/logging"
 	"github.com/fleetdm/fleet/v4/server/fleet"
@@ -357,6 +359,15 @@ type getScriptResultRequest struct {
 	ExecutionID string `url:"execution_id"`
 }
 
+type getDeviceSoftwareUninstallResultsRequest struct {
+	Token       string `url:"token"`
+	ExecutionID string `url:"execution_id"`
+}
+
+func (r *getDeviceSoftwareUninstallResultsRequest) deviceAuthToken() string {
+	return r.Token
+}
+
 type getScriptResultResponse struct {
 	ScriptContents string    `json:"script_contents"`
 	ScriptID       *uint     `json:"script_id"`
@@ -402,12 +413,47 @@ func getScriptResultEndpoint(ctx context.Context, request interface{}, svc fleet
 	}, nil
 }
 
+func getDeviceSoftwareUninstallResultsEndpoint(ctx context.Context, request interface{}, svc fleet.Service) (fleet.Errorer, error) {
+	_, ok := hostctx.FromContext(ctx)
+	if !ok {
+		err := ctxerr.Wrap(ctx, fleet.NewAuthRequiredError("internal error: missing host from request context"))
+		return getSoftwareInstallResultsResponse{Err: err}, nil
+	}
+
+	req := request.(*getDeviceSoftwareUninstallResultsRequest)
+	scriptResult, err := svc.GetScriptResult(ctx, req.ExecutionID)
+	if err != nil {
+		return getScriptResultResponse{Err: err}, nil
+	}
+
+	// TODO: move this logic out of the endpoint function and consolidate in either the service
+	// method or the fleet package
+	hostTimeout := scriptResult.HostTimeout(scripts.MaxServerWaitTime)
+	scriptResult.Message = scriptResult.UserMessage(hostTimeout, scriptResult.Timeout)
+
+	return &getScriptResultResponse{
+		ScriptContents: scriptResult.ScriptContents,
+		ScriptID:       scriptResult.ScriptID,
+		ExitCode:       scriptResult.ExitCode,
+		Output:         scriptResult.Output,
+		Message:        scriptResult.Message,
+		HostName:       scriptResult.Hostname,
+		HostTimeout:    hostTimeout,
+		HostID:         scriptResult.HostID,
+		ExecutionID:    scriptResult.ExecutionID,
+		Runtime:        scriptResult.Runtime,
+		CreatedAt:      scriptResult.CreatedAt,
+	}, nil
+}
+
 func (svc *Service) GetScriptResult(ctx context.Context, execID string) (*fleet.HostScriptResult, error) {
 	scriptResult, err := svc.ds.GetHostScriptExecutionResult(ctx, execID)
 	if err != nil {
 		if fleet.IsNotFound(err) {
-			if err := svc.authz.Authorize(ctx, &fleet.HostScriptResult{}, fleet.ActionRead); err != nil {
-				return nil, err
+			if !svc.authz.IsAuthenticatedWith(ctx, authz_ctx.AuthnDeviceToken) {
+				if err := svc.authz.Authorize(ctx, &fleet.HostScriptResult{}, fleet.ActionRead); err != nil {
+					return nil, err
+				}
 			}
 		}
 		svc.authz.SkipAuthorization(ctx)
@@ -415,7 +461,7 @@ func (svc *Service) GetScriptResult(ctx context.Context, execID string) (*fleet.
 	}
 
 	if scriptResult.HostDeletedAt == nil {
-		// host is not deleted, get it and authorize for the host's team
+		// host is not deleted, get it and authorize for the host's team (if not using device auth)
 		host, err := svc.ds.HostLite(ctx, scriptResult.HostID)
 		if err != nil {
 			// if error is because the host does not exist, check first if the user

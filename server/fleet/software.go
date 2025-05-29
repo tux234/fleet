@@ -130,6 +130,12 @@ func (s Software) ComputeRawChecksum() ([]byte, error) {
 	return h.Sum(nil), nil
 }
 
+// SoftwareInfo contains information about software retrieved from execution ID
+type SoftwareInfo struct {
+	TitleName   string
+	SelfService bool
+}
+
 type VulnerableSoftware struct {
 	ID                uint    `json:"id" db:"id"`
 	Name              string  `json:"name" db:"name"`

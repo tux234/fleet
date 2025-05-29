@@ -1261,6 +1261,7 @@ This activity contains the following fields:
 - "software_title": Name of the software.
 - "script_execution_id": ID of the software uninstall script.
 - "status": Status of the software uninstallation.
+- "self_service": Whether the uninstallation was initiated by the end user from the My device UI.
 
 #### Example
 
@@ -1270,7 +1271,8 @@ This activity contains the following fields:
   "host_display_name": "Anna's MacBook Pro",
   "software_title": "Falcon.app",
   "script_execution_id": "ece8d99d-4313-446a-9af2-e152cd1bad1e",
-  "status": "uninstalled"
+  "status": "uninstalled",
+  "self_service": false
 }
 ```
 

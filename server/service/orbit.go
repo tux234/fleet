@@ -888,10 +888,10 @@ func (svc *Service) SaveHostScriptResult(ctx context.Context, result *fleet.Host
 
 		switch action {
 		case "uninstall":
-			// Get software title from execution ID
-			softwareTitleName, err := svc.ds.GetSoftwareTitleNameFromExecutionID(ctx, hsr.ExecutionID)
+			// Get software title and self_service flag from execution ID
+			softwareInfo, err := svc.ds.GetSoftwareInfoFromExecutionID(ctx, hsr.ExecutionID)
 			if err != nil {
-				return ctxerr.Wrap(ctx, err, "get software title from execution ID")
+				return ctxerr.Wrap(ctx, err, "get software info from execution ID")
 			}
 			activityStatus := "failed"
 			if hsr.ExitCode != nil && *hsr.ExitCode == 0 {
@@ -903,9 +903,10 @@ func (svc *Service) SaveHostScriptResult(ctx context.Context, result *fleet.Host
 				fleet.ActivityTypeUninstalledSoftware{
 					HostID:          host.ID,
 					HostDisplayName: host.DisplayName(),
-					SoftwareTitle:   softwareTitleName,
+					SoftwareTitle:   softwareInfo.TitleName,
 					ExecutionID:     hsr.ExecutionID,
 					Status:          activityStatus,
+					SelfService:     softwareInfo.SelfService,
 				},
 			); err != nil {
 				return ctxerr.Wrap(ctx, err, "create activity for script execution request")

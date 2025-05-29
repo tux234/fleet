@@ -1359,7 +1359,7 @@ ORDER BY
 INSERT INTO
 	host_software_installs
 (execution_id, host_id, software_installer_id, user_id, uninstall, installer_filename,
-	software_title_id, software_title_name, version)
+	software_title_id, software_title_name, version, self_service)
 SELECT
 	ua.execution_id,
 	ua.host_id,
@@ -1369,7 +1369,8 @@ SELECT
 	'', -- no installer_filename for uninstalls
 	siua.software_title_id,
 	COALESCE(ua.payload->>'$.software_title_name', '[deleted title]'),
-	'unknown'
+	'unknown',
+	COALESCE(ua.payload->'$.self_service', 0)
 FROM
 	upcoming_activities ua
 	INNER JOIN software_install_upcoming_activities siua
