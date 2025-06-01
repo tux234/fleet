@@ -1,7 +1,7 @@
 
 # Windows MDM Server Demo
 
-This project is a working and minimal implementation of the Windows device enrollment and management protocols. It was based on an initial implementation of the MS-MDE enrollment protocols [here](https://github.com/oscartbeaumont/windows_mdm).
+This project is a working and minimal implementation of the Windows device enrollment and management protocols. It was based on an initial implementation of the MS-MDE enrollment protocols in [the original windows_mdm repository](https://github.com/oscartbeaumont/windows_mdm).
 
 This project uses the protocols:
 
@@ -18,7 +18,7 @@ The steps for MDE device enrollment correspond to five phases as shown in the fo
 
 ## License
 
-This code is MIT licensed and it was forked from [here](https://github.com/oscartbeaumont/windows_mdm). Initial implementation credit goes to [Oscar Beaumont](https://github.com/oscartbeaumont).
+This code is MIT licensed and it was forked from [the original windows_mdm repository](https://github.com/oscartbeaumont/windows_mdm). Initial implementation credit goes to [Oscar Beaumont](https://github.com/oscartbeaumont).
 
 ## Usage
 
@@ -644,5 +644,3 @@ Content-Type: application/soap+xml; charset=utf-8
     ----------- Response Body -----------
 
     =========================================================================
-
-

@@ -55,7 +55,7 @@ The `labels:` key is _optional_ in your YAML configuration:
 +  If included, GitOps will replace all existing labels with those specified in the YAML, and any labels referenced in other sections (like [policies](https://fleetdm.com/docs/configuration/yaml-files#policies), [queries](https://fleetdm.com/docs/configuration/yaml-files#queries) or [software](https://fleetdm.com/docs/configuration/yaml-files#software)) _must_ be specified in the `labels` section.
 
 #### Separate file
- 
+
 `lib/labels-name.labels.yml`
 
 ```yaml
@@ -90,7 +90,7 @@ For possible options, see the parameters for the [Add policy API endpoint](https
 ### Example
 
 #### Inline
-  
+
 `default.yml`, `teams/team-name.yml`, or `teams/no-team.yml`
 
 ```yaml
@@ -109,7 +109,7 @@ policies:
 ```
 
 #### Separate file
- 
+
 `lib/policies-name.policies.yml`
 
 ```yaml
@@ -169,7 +169,7 @@ For possible options, see the parameters for the [Create query API endpoint](htt
 ### Example
 
 #### Inline
-  
+
 `default.yml` or `teams/team-name.yml`
 
 ```yaml
@@ -187,7 +187,7 @@ queries:
 ```
 
 #### Separate file
- 
+
 `lib/queries-name.queries.yml`
 
 ```yaml
@@ -230,7 +230,7 @@ For possible options, see the parameters for the [Add label API endpoint](https:
 ### Example
 
 #### Inline
-  
+
 `default.yml`
 
 ```yaml
@@ -249,7 +249,7 @@ labels:
 ```
 
 #### Separate file
- 
+
 `lib/labels-name.labels.yml`
 
 ```yaml
@@ -282,7 +282,7 @@ See "[Agent configuration](https://fleetdm.com/docs/configuration/agent-configur
 ### Example
 
 #### Inline
-  
+
 `default.yml` or `teams/team-name.yml`
 
 ```yaml
@@ -303,7 +303,7 @@ agent_options:
 ```
 
 #### Separate file
- 
+
 `lib/agent-options.yml`
 
 ```yaml
@@ -605,7 +605,7 @@ The `host_expiry_settings` section lets you define if and when hosts should be a
 ```yaml
 org_settings:
   host_expiry_settings:
-  	host_expiry_enabled: true
+    host_expiry_enabled: true
     host_expiry_window: 10
 ```
 
@@ -635,7 +635,7 @@ org_settings:
 
 ### secrets
 
-The `secrets` section defines the valid secrets that hosts can use to enroll to Fleet. Supply one of these secrets when generating the fleetd agent you'll use to enroll hosts. Learn more [here](https://fleetdm.com/docs/using-fleet/enroll-hosts).
+The `secrets` section defines the valid secrets that hosts can use to enroll to Fleet. Supply one of these secrets when generating the fleetd agent you'll use to enroll hosts. Learn more about [enrolling hosts to Fleet](https://fleetdm.com/docs/using-fleet/enroll-hosts).
 
 #### Example
 
@@ -674,7 +674,7 @@ org_settings:
 
 ### sso_settings
 
-The `sso_settings` section lets you define single sign-on (SSO) settings. Learn more about SSO in Fleet [here](https://fleetdm.com/docs/deploying/configuration#configuring-single-sign-on-sso).
+The `sso_settings` section lets you define single sign-on (SSO) settings. Learn more about [configuring SSO in Fleet](https://fleetdm.com/docs/deploying/configuration#configuring-single-sign-on-sso).
 
 - `enable_sso` (default: `false`)
 - `idp_name` is the human-friendly name for the identity provider that will provide single sign-on authentication (default: `""`).
@@ -705,7 +705,7 @@ org_settings:
 
 The `integrations` section lets you configure your Google Calendar, Jira, and Zendesk. After configuration, you can enable [automations](https://fleetdm.com/docs/using-fleet/automations) like calendar event and ticket creation for failing policies. Currently, enabling ticket creation is only available using Fleet's UI or [API](https://fleetdm.com/docs/rest-api/rest-api) (YAML files coming soon).
 
-In addition, you can configure your certificate authorities (CA) to help your end users connect to Wi-Fi. Learn more about certificate authorities in Fleet [here](https://fleetdm.com/guides/certificate-authorities).
+In addition, you can configure your certificate authorities (CA) to help your end users connect to Wi-Fi. Learn more about [certificate authorities in Fleet](https://fleetdm.com/guides/certificate-authorities).
 
 #### Example
 
@@ -805,7 +805,7 @@ For secrets, you can add [GitHub environment variables](https://docs.github.com/
 
 ### webhook_settings
 
-The `webhook_settings` section lets you define webhook settings for failing policy, vulnerability, and host status automations. Learn more about automations in Fleet [here](https://fleetdm.com/docs/using-fleet/automations).
+The `webhook_settings` section lets you define webhook settings for failing policy, vulnerability, and host status automations. Learn more about [automations in Fleet](https://fleetdm.com/docs/using-fleet/automations).
 
 #### activities_webhook
 
@@ -888,7 +888,7 @@ Can only be configured for all teams (`org_settings`).
 
 #### apple_business_manager
 
-After you've uploaded an Apple Business Manager (ABM) token, the `apple_business_manager` section lets you configure the teams in Fleet new hosts in ABM are automatically added to. Currently, adding an ABM token is only available using Fleet's UI. Learn more [here](https://fleetdm.com/guides/macos-mdm-setup#automatic-enrollment).
+After you've uploaded an Apple Business Manager (ABM) token, the `apple_business_manager` section lets you configure the teams in Fleet new hosts in ABM are automatically added to. Currently, adding an ABM token is only available using Fleet's UI. Learn more about [automatic enrollment in Apple Business Manager](https://fleetdm.com/guides/macos-mdm-setup#automatic-enrollment).
 
 Currently, managing labels and users, ticket destinations (Jira and Zendesk), Apple Business Manager (ABM) are only supported using Fleet's UI or [API](https://fleetdm.com/docs/rest-api/rest-api) (YAML files coming soon).
 
@@ -913,7 +913,7 @@ org_settings:
 
 #### volume_purchasing_program
 
-After you've uploaded a Volume Purchasing Program (VPP) token, the  `volume_purchasing_program` section lets you configure the teams in Fleet that have access to that VPP token's App Store apps. Currently, adding a VPP token is only available using Fleet's UI. Learn more [here](https://fleetdm.com/guides/macos-mdm-setup#volume-purchasing-program-vpp).
+After you've uploaded a Volume Purchasing Program (VPP) token, the  `volume_purchasing_program` section lets you configure the teams in Fleet that have access to that VPP token's App Store apps. Currently, adding a VPP token is only available using Fleet's UI. Learn more about [Volume Purchasing Program (VPP) in Fleet](https://fleetdm.com/guides/macos-mdm-setup#volume-purchasing-program-vpp).
 
 - `location` is the name of the location in the Apple Business Manager account.
 - `teams` is a list of team names. If you choose specific teams, App Store apps in this VPP account will only be available to install on hosts in these teams. If not specified, App Store apps are available to install on hosts in all teams.
@@ -936,7 +936,7 @@ Can only be configured for all teams (`org_settings`).
 
 #### end_user_authentication
 
-The `end_user_authentication` section lets you define the identity provider (IdP) settings used for end user authentication during Automated Device Enrollment (ADE). Learn more about end user authentication in Fleet [here](https://fleetdm.com/guides/macos-setup-experience#end-user-authentication-and-eula).
+The `end_user_authentication` section lets you define the identity provider (IdP) settings used for end user authentication during Automated Device Enrollment (ADE). Learn more about [end user authentication during macOS setup](https://fleetdm.com/guides/macos-setup-experience#end-user-authentication-and-eula).
 
 Once the IdP settings are configured, you can use the [`controls.macos_setup.enable_end_user_authentication`](#macos-setup) key to control the end user experience during ADE.
 
@@ -980,8 +980,7 @@ Can only be configured for all teams (`org_settings`).
 #### yara_rules
 
 The `yara_rules` section lets you define [YARA rules](https://virustotal.github.io/yara/) that will be served by Fleet's authenticated
-YARA rule functionality. Learn more about authenticated YARA rules in Fleet
-[here](https://fleetdm.com/guides/remote-yara-rules).
+YARA rule functionality. Learn more about [remote YARA rules in Fleet](https://fleetdm.com/guides/remote-yara-rules).
 
 ##### Example
 

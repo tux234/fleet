@@ -8,7 +8,7 @@ SentinelOne is a cybersecurity platform that provides endpoint protection, detec
 
 ### Upload .mobileconfigs to Fleet
 
-SentinelOne requires 5 separate mobileconfig files in order to properly function on macOS. Each of these serves an important operational function. These 5 profiles are available to download on my GitHub repo [here](https://github.com/harrisonravazzolo/Bluth-Company-GitOps/tree/main/lib/macos/SentinelOne). Let's quickly run through each one and highlight what it's actually doing on your endpoints.
+SentinelOne requires 5 separate mobileconfig files in order to properly function on macOS. Each of these serves an important operational function. These 5 profiles are available to download from the [SentinelOne configuration files repository](https://github.com/harrisonravazzolo/Bluth-Company-GitOps/tree/main/lib/macos/SentinelOne). Let's quickly run through each one and highlight what it's actually doing on your endpoints.
 
 > It's possible these profiles can be combined into one payload, but we've kept them separate here for troubleshooting purposes.
 
@@ -29,7 +29,7 @@ From the SentinelOne admin console, navigate to the **Sentinels** tab on the lef
 From the **Software** tab in Fleet, **Add software** > **Custom package**. Upload the installer from the previous step. Select **Automatic install** or **Self-service** if those options apply to your environment. 
 
 >Working with different hardware architectures? Use labels to scope installs based on hardware.
- 
+
 On macOS, no pre-install or post-install script is required; however, the installer does support passing the site token as a flag if you prefer to deploy that route verses a configuration profile.
 
 For admins that are leveraging the macOS Setup Experience in Fleet, we recommend adding the software to the list of items done on first boot.
@@ -50,9 +50,9 @@ try {
     $installProcess = Start-Process msiexec.exe `
         -ArgumentList "/quiet /norestart /lv ${logFile} /i `"${env:INSTALLER_PATH}`" SITE_TOKEN=YOUR_SITE_TOKEN_HERE" `
         -PassThru -Verb RunAs -Wait
-    
+
     Get-Content $logFile -Tail 500
-    
+
     # Convert exit code 3010 (restart required) to 0
     $exitCode = $installProcess.ExitCode
     if ($exitCode -eq 3010) {
