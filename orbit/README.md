@@ -44,7 +44,7 @@ go build \
 ```
 
 ### Linux
-```sorbit/README.mdh
+```sh
 CGO_ENABLED=1 \
 GOOS=linux \
 GOARCH=amd64 \
@@ -58,7 +58,7 @@ go build \
 
 ## Bugs
 
-To report a bug or request a feature, [click here](https://github.com/fleetdm/fleet/issues).
+To report a bug or request a feature, [file an issue](https://github.com/fleetdm/fleet/issues).
 
 ## Orbit Development
 

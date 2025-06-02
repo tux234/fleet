@@ -23,7 +23,7 @@ The end result simply needs to be a standard, plain text file with the correct k
 
 ### Examples
 
-To restart a macOS host, we can use the "Restart a Device" MDM command documented by Apple in their [device management documentation](https://developer.apple.com/documentation/devicemanagement/restart_a_device#3384428). 
+To restart a macOS host, we can use the "Restart a Device" MDM command documented by Apple in [their device management documentation](https://developer.apple.com/documentation/devicemanagement/restart_a_device#3384428). 
 
 Below is the text to be used as the MDM command payload. Save it as a file and name it something like `apple-restart-device.xml`.
 
@@ -41,7 +41,7 @@ Below is the text to be used as the MDM command payload. Save it as a file and n
 </plist>
 ```
 
-To restart a Windows host, we can use the "Reboot" command documented by Microsoft in their [Reboot CSP documentation](https://learn.microsoft.com/en-us/windows/client-management/mdm/reboot-csp).
+To restart a Windows host, we can use the "Reboot" command documented by Microsoft in [their reboot CSP documentation](https://learn.microsoft.com/en-us/windows/client-management/mdm/reboot-csp).
 
 Below is the text to be used as the MDM command payload. Save it as a file and name it something like `windows-restart-device.xml`.
 

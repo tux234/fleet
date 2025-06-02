@@ -19,7 +19,7 @@ See [Extending Sails > Generators > Custom Generators](https://sailsjs.com/docs/
 
 ## Bugs 
 
-To report a bug, [click here](https://github.com/fleetdm/fleet/issues/new).
+To report a bug, [file an issue](https://github.com/fleetdm/fleet/issues/new).
 
 
 ## Contributing

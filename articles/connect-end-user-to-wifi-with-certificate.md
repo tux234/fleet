@@ -20,8 +20,7 @@ To connect end users to W-Fi or VPN with DigiCert certificates, we'll do the fol
 ### Step 1: Create service user in DigiCert
 
 1. Head to [DigiCert One](https://one.digicert.com/)
-2. Follow the instructions to [create a service user](https://docs.digicert.com/en/platform-overview/manage-your-accounts/account-manager/users-and-access/service-users/create-a-service-user.html) and save the service user's API token.
-
+2. Follow the [instructions to create a service user](https://docs.digicert.com/en/platform-overview/manage-your-accounts/account-manager/users-and-access/service-users/create-a-service-user.html) and save the service user's API token.
 > Make sure to assign **User and certificate manager** and **Certificate profile manager** roles
 > when creating service user.
 
@@ -125,7 +124,7 @@ When saving the configuration, Fleet will attempt to connect to the SCEP server 
 1. Create a [configuration profile](https://fleetdm.com/guides/custom-os-settings) with the SCEP payload. In the profile, for `Challenge`, use`$FLEET_VAR_NDES_SCEP_CHALLENGE`. For `URL`, use `$FLEET_VAR_NDES_SCEP_PROXY_URL`, and make sure to add `$FLEET_VAR_SCEP_RENEWAL_ID` to `CN`.
 
 
-2. If your Wi-Fi or VPN requires certificates that are unique to each host, update the `Subject`. You can use `$FLEET_VAR_HOST_END_USER_EMAIL_IDP` if your hosts automatically enrolled (via ADE) to Fleet with end user authentication enabled (learn more about [human device mapping](https://fleetdm.com/docs/rest-api/rest-api#get-human-device-mapping)). You can also use any of the [Apple's built-in variables](https://support.apple.com/en-my/guide/deployment/dep04666af94/1/web/1.0).
+2. If your Wi-Fi or VPN requires certificates that are unique to each host, update the `Subject`. You can use `$FLEET_VAR_HOST_END_USER_EMAIL_IDP` if your hosts automatically enrolled (via ADE) to Fleet with end user authentication enabled (learn more [here](https://fleetdm.com/docs/rest-api/rest-api#get-human-device-mapping)). You can also use any of the [Apple's built-in variables](https://support.apple.com/en-my/guide/deployment/dep04666af94/1/web/1.0).
 
 3. In Fleet, head to **Controls > OS settings > Custom settings** and add the configuration profile to deploy certificates to your hosts.
 
