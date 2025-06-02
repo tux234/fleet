@@ -15,7 +15,6 @@ This page details processes specific to working [with](#contact-us) and [within]
 | Software Engineer               | [Eric Shaw](https://www.linkedin.com/in/eric-shaw-1423831a9/) _([@eashaw](https://github.com/eashaw))_
 | Contracts and Compliance Engineer       | [Nathan Holliday](https://www.linkedin.com/in/nathanael-holliday/) _([@hollidayn](https://github.com/hollidayn))_
 | Marketing Apprentice            | [Onasis Munro](https://www.linkedin.com/in/onasismunro/) _([@onasismunro](https://github.com/onasismunro))_
- 
 
 
 ## Contact us
@@ -322,9 +321,9 @@ You can confirm that the device has been ordered correctly by following these st
 - View device settings and ensure the "MDM Server" selected is "Fleet Dogfood".
 
 On occasion there will be a need to manually enroll a macOS host in dogfood. This could be due to a BYOD arrangement, or because the Fleetie getting the device is in a country when DEP (automatic enrollment) isn't supported. To manually enroll a macOS host in dogfood, follow these steps:
-- If you have physical access to the macOS host, use Apple Configurator (docs are [here](https://support.apple.com/guide/apple-business-manager/add-devices-from-apple-configurator-axm200a54d59/web)).
+- If you have physical access to the macOS host, use Apple Configurator (docs are in the [Apple Business Manager guide](https://support.apple.com/guide/apple-business-manager/add-devices-from-apple-configurator-axm200a54d59/web)).
 - If you do not have physical access to the device, the user will need to undertake the following steps:
-  - Install the fleetd package for your device from shared drive folder [here](https://drive.google.com/drive/folders/1-hMwk4P7NRzCU5kDxkEcOo8Sluuaux1h?usp=drive_link).
+  - Install the fleetd package for your device from the [shared drive folder](https://drive.google.com/drive/folders/1-hMwk4P7NRzCU5kDxkEcOo8Sluuaux1h?usp=drive_link).
   - Once fleetd is installed, click on Fleet desktop icon in top right menu bar, and select "My device".
   - In Fleet desktop, follow the instructions to turn on MDM.
   - Once complete, follow instructions to reset disk encryption key.
@@ -333,7 +332,7 @@ On occasion there will be a need to manually enroll a macOS host in dogfood. Thi
 
 ### Enroll a Windows or Ubuntu Linux device in dogfood
 
-To enroll a windows or Ubuntu Linux device in dogfood, instruct the user to install fleetd for their platform from internal shared drive folder [here](https://drive.google.com/drive/folders/1-hMwk4P7NRzCU5kDxkEcOo8Sluuaux1h?usp=drive_link).
+To enroll a windows or Ubuntu Linux device in dogfood, instruct the user to install fleetd for their platform from the [internal shared drive folder](https://drive.google.com/drive/folders/1-hMwk4P7NRzCU5kDxkEcOo8Sluuaux1h?usp=drive_link).
 Once the user has installed fleetd, verify the device is correctly enrolled by confirming the device encryption key is in dogfood.
 
 
@@ -405,17 +404,17 @@ At Fleet, everyone is recognized on their [workiversary](https://fleetdm.com/han
 
 1. On the 1st of every month, use [Fleeties (private google doc)](https://docs.google.com/spreadsheets/d/1OSLn-ZCbGSjPusHPiR5dwQhheH1K8-xqyZdsOe9y7qc/edit#gid=0) to determine who is celebrating their workiversary in the next month.
 2. List all team members in the ["✌️ All hands 🖐👋🤲👏🙌🤘" section of the e-group doc (confidential Google Doc)](https://docs.google.com/document/d/13fjq3T0bZGOUah9cqHVxngckv0EB2R24A3gfl5cH7eo/edit?tab=t.0#heading=h.gg4j9w7jg6g3) using the following format: `[workiversary date (DD-MMM)] - [teammate name] - [number of years at Fleet]`.
-3. On the day prior to a workiversary, send the teammate’s manager a DM on Slack:
+3. On the day prior to a workiversary, send the teammate's manager a DM on Slack:
 
 
     ```
-    Hey! Just a heads up, tomorrow is [teammate’s name] [number of years at Fleet] workiversary at Fleet.
+    Hey! Just a heads up, tomorrow is [teammate's name] [number of years at Fleet] workiversary at Fleet.
     Digital Experience can post something in the #random channel to recognize them, would you like to make that post instead?
     ```
  
    > If a manager elects to post and hasn't done so by 2pm ET on the day of the workiversary, send them a friendly reminder and offer to post instead.
 
-4. If the manager has deferred to Digital Experience, schedule a Slack post for the following day to recognize the teammate's contributions at Fleet. If you’re unsure about what to post, take a look at what’s been [posted previously](https://docs.google.com/document/d/1Va4TYAs9Tb0soDQPeoeMr-qHxk0Xrlf-DUlBe4jn29Q/edit).
+4. If the manager has deferred to Digital Experience, schedule a Slack post for the following day to recognize the teammate's contributions at Fleet. If you're unsure about what to post, take a look at what's been [posted previously](https://docs.google.com/document/d/1Va4TYAs9Tb0soDQPeoeMr-qHxk0Xrlf-DUlBe4jn29Q/edit).
 
 
 ### Prepare salary benchmarking information
@@ -462,7 +461,7 @@ For the status of stock option grants, exercises, and all other _common stock_ i
 
 ### Grant role-specific license to a team member
 
-Certain new team members, especially in go-to-market (GTM) roles, will need paid access to paid tools like Salesforce and LinkedIn Sales Navigator immediately on their first day with the company. Gong licenses that other departments need may [request them from Digital Experience](https://fleetdm.com/handbook/digital-experience#contact-us) and we will make sure there is no license redundancy in that department. The table below can be used to determine which paid licenses they will need, based on their role:
+Certain new team members, especially in go-to-market (GTM) roles, will need paid access to paid tools like Salesforce and LinkedIn Sales Navigator immediately on their first day with the company. Gong licenses that other departments need may [request them from Digital Experience](https://fleetdm.com/handbook/digital-experience#contact-us) and we will make sure there is no license redundancy in that department. The table below can be used to determine which paid licenses they will need, based on their role:
 
 | Role                 | Salesforce CRM | Salesforce "Inbox" | LinkedIn _(paid)_ | Gong _(paid)_ | Zoom _(paid)_|
 |:-----------------|:---|:---|:----|:---|:---|
@@ -500,8 +499,8 @@ Here are the steps we take to grant appropriate Salesforce licenses to a new hir
 - The order will be processed in ~30m.
 - Once the basic license has been added, you can create a new user using the new team member's `@fleetdm.com` email and assign a license to it.
   - To enable email sync for a user:
-    - Navigate to the [user’s record](https://fleetdm.lightning.force.com/lightning/setup/ManageUsers/home) and scroll to the bottom of the permission set section.
-    - Add the “Inbox with Einstein Activity Capture” permission set and save.
+    - Navigate to the [user's record](https://fleetdm.lightning.force.com/lightning/setup/ManageUsers/home) and scroll to the bottom of the permission set section.
+    - Add the "Inbox with Einstein Activity Capture" permission set and save.
     - Navigate to the ["Einstein Activity Capture Settings"](https://fleetdm.lightning.force.com/lightning/setup/ActivitySyncEngineSettingsMain/home) and click the "Configurations" tab.
     - Select "Edit", under "User and Profile Assignments" move the new user's name from "Available" to "Selected", scroll all the way down and click save.
 
@@ -883,7 +882,7 @@ Time management for the CEO is essential.  The Apprentice processes the CEO's ca
     - CEO's email
     - LinkedIn messages (careful not to mark things as read!)
     - Google Drive 
-  6. Edit the calendar event description, changing “Notes” to “Agenda” when you're finished preparing the document to signify that this meeting has been prepped.
+  6. Edit the calendar event description, changing "Notes" to "Agenda" when you're finished preparing the document to signify that this meeting has been prepped.
 
 
 ### Check LinkedIn for new activity 
@@ -918,7 +917,7 @@ To add the most recent connections from Linkedin to our CRM, follow these steps:
 Once a week, the Apprentice will review the "community activity report" and add the LinkedIn URLs into the campaign. This will send out a connection request to those who liked, shared, commented, etc. a post on LinkedIn. 
  1. Export the [community activity report](https://fleetdm.lightning.force.com/lightning/r/Report/00OUG000002j3wf2AA/view).
  2. Copy the LinkedIn URLs.
- 3. Paste the LinkedIn URLs [here](https://app.dripify.io/campaigns/1291030).
+ 3. Paste the LinkedIn URLs in the [Dripify campaign](https://app.dripify.io/campaigns/1291030).
 
  ![image](https://github.com/user-attachments/assets/dc20c4c2-9691-4e70-bb9c-90b725403571)
 
@@ -927,7 +926,7 @@ Once a week, the Apprentice will review the "community activity report" and add 
 ### Schedule travel for the CEO
 
 The Apprentice schedules all travel arrangements for the CEO including flights, hotel, and reservations if needed. CEO traveling preferences in descending order of importance are:
-  - Direct flight whenever possible  (as long as the cost of the direct flight is ≤2x the cost of a reasonable non-direct flight)
+  - Direct flight whenever possible  (as long as the cost of the direct flight is ≤2x the cost of a reasonable non-direct flight)
   - Select a non-middle seat, whenever possible
   - Don't upgrade seats (unless there's a cheap upgrade that gets a non-middle seat, or if a flight is longer than 5 hours.  Even then, never buy a seat upgrade that costs >$100.)
   - The CEO does not like to be called "Michael".  Unfortunately, this is necessary when booking flights.  (He has missed flights before by not doing this.)
@@ -985,7 +984,7 @@ Use the following steps to confirm CEO shadow dates:
 
 ### Check GitHub terms
 
-Go to [GitHub's terms of services](https://docs.github.com/en/free-pro-team@latest/github/site-policy/github-terms-of-service) and search “inbound=outbound” to find the clause, if still there as is, paste a screenshot into the table in this [document](https://docs.google.com/document/d/101rcp9v3Zdml4YolGRmqYS5ruAKzQvXLOTHLXCavPuE/edit#heading=h.xu6qsi0wrns). If the clause has changed, contact Mike M. and let him know. 
+Go to [GitHub's terms of services](https://docs.github.com/en/free-pro-team@latest/github/site-policy/github-terms-of-service) and search "inbound=outbound" to find the clause, if still there as is, paste a screenshot into the table in this [document](https://docs.google.com/document/d/101rcp9v3Zdml4YolGRmqYS5ruAKzQvXLOTHLXCavPuE/edit#heading=h.xu6qsi0wrns). If the clause has changed, contact Mike M. and let him know. 
 
 
 ## Rituals
@@ -1005,3 +1004,4 @@ The following stubs are included only to make links backward compatible.
 
 <meta name="maintainedBy" value="Sampfluger88">
 <meta name="title" value="🌐 Digital Experience">
+

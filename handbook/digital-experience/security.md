@@ -1,5 +1,6 @@
 # Security
 
+Fleet is committed to maintaining a harassment-free workplace based on mutual respect and compliance with the law. All Fleeties are required to comply with the [anti-harassment policy](https://docs.google.com/document/d/1qalY5_OcnCbHOJYUOz8R5O92RLortYrKdxur6Ned7ac/edit?usp=sharing).
 
 ## Fleet security
 
@@ -1527,7 +1528,7 @@ resulting security exposures that are now on the affected system(s).
 #### IV - Recovery (Technical)
 
 The Recovery Phase represents the SIRT's effort to restore the affected
-system(s) to operation after the resulting security exposures, if any, have
+system(s) to operation after the resulting security exposures, if any have
 been corrected.
 
 The technical team determines if the affected system(s) have been changed in any way.
@@ -2284,3 +2285,4 @@ improvements to make it more robust and resilient to compromise.
 
 <meta name="maintainedBy" value="hollidayn">
 <meta name="title" value="Security">
+

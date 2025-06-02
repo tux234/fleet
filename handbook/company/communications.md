@@ -570,12 +570,11 @@ We use `<meta>` tags in Markdown articles to set metadata information about the 
 
 The [Audit logs doc page](https://fleetdm.com/docs/Using-Fleet/Audit-logs) has a page generator that is used to speed up doc writing when Fleet adds new activity types.
 
-- If you're making a copy change to an exiting activity type, edit the `activities.go` file [here](https://github.com/fleetdm/fleet/blob/main/server/fleet/activities.go).
-- If you're making a change to the top section or meta tags, edit the `gen_activity_doc.go` file [here](https://github.com/fleetdm/fleet/blob/main/server/fleet/gen_activity_doc.go).
+- If you're making a copy change to an exiting activity type, edit the `activities.go` file in the [server/fleet directory](https://github.com/fleetdm/fleet/blob/main/server/fleet/activities.go).
+- If you're making a change to the top section or meta tags, edit the `gen_activity_doc.go` file in the [server/fleet directory](https://github.com/fleetdm/fleet/blob/main/server/fleet/gen_activity_doc.go).
 - If you're adding a new activity type, add the activity to the `ActivityDetailsList` list in the `activities.go` file.
 
 After making your changes, save them and run `make generate-doc`. This will generate a new `Audit-logs.md` file. Make sure you run the command in the top level folder of your cloned, Fleet repo.
-
 
 
 ## Spending company money
@@ -1211,7 +1210,7 @@ Use a numbered list if it follows a specific order or includes a set number of i
 
 ✅ **Do** use a colon if you introduce a list with a complete sentence.
 
-❌ **Don’t** use a colon if you start a list right after a heading.
+❌ **Don't** use a colon if you start a list right after a heading.
 
 
 #### How to use end punctuation with list items
@@ -1223,14 +1222,14 @@ End punctuation refers to punctuation marks that are used to end sentences, such
 - Educate users about security threats positively.
 - We never use fear as a marketing tactic.
 
-❌ **Don’t** use end punctuation if your list items are sentence fragments, single words, or short phrases:
+❌ **Don't** use end punctuation if your list items are sentence fragments, single words, or short phrases:
 - Policies
 - Enterprise support
 - Self-hosted agent auto-updates
 
-❌ **Don’t** mix complete sentences with sentence fragments, single words, or short phrases. Consistent formatting makes lists easier to read.
+❌ **Don't** mix complete sentences with sentence fragments, single words, or short phrases. Consistent formatting makes lists easier to read.
 
-❌ **Don’t** use commas or semicolons to end bullet points.
+❌ **Don't** use commas or semicolons to end bullet points.
 
 
 #### How to capitalize list items
