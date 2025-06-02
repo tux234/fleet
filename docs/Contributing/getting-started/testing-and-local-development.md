@@ -101,7 +101,7 @@ $ docker-compose -f docker-compose.yml -f docker-compose-redis-cluster.yml up
 
 ### Redis cluster on macOS
 
-Redis cluster mode can also be run on macOS, but requires an extra component to give the local development environment access to the docker network. The required tool is located [here](https://github.com/chipmk/docker-mac-net-connect). Run the following commands to setup the docker VPN bridge:
+Redis cluster mode can also be run on macOS, but requires an extra component to give the local development environment access to the docker network. The required tool is located at [docker-mac-net-connect](https://github.com/chipmk/docker-mac-net-connect). Run the following commands to setup the docker VPN bridge:
 
 ```sh
 # Install via Homebrew
@@ -664,7 +664,7 @@ To use the workflow, follow these steps:
 - Select "Developer ID Installer" and follow the prompts to create and download the certificate.
 - Install the downloaded certificate to your keychain.
 - Locate the certificate in your Keychain and confirm everything looks correct. Run this command to confirm you see it listed `security find-identity -v`
-  - If the security  command does not show your newly added certificate you may need to install the `Developer ID - G2 (Expiring 09/17/2031 00:00:00 UTC)` certificate from [here](https://www.apple.com/certificateauthority/). 
+  - If the security  command does not show your newly added certificate you may need to install the `Developer ID - G2 (Expiring 09/17/2031 00:00:00 UTC)` certificate from [Apple's Certificate Authority](https://www.apple.com/certificateauthority/). 
 3. Sign your pkg with the `productsign` command replacing the placeholders with your actual values:
 
 `productsign --sign "Developer ID Installer: Your Apple Account Name (serial number)" <path_to_unpacked_files> <path_to_signed_package.pkg>`
@@ -724,6 +724,91 @@ mkdir -p ./tmp/fleetd-base-dir/stable
 6. Start your fleet server with `FLEET_DEV_DOWNLOAD_FLEETDM_URL` to point to the ngrok URL.
 	- Example: `FLEET_DEV_DOWNLOAD_FLEETDM_URL="https://more.pezhub.ngrok.app"`
 7. Enroll your mac with ADE. Tip: You can watch ngrok traffic via the inspect web interface url to ensure the two hosted packages are in the correct place and successfully reached by the host.
+
+### Building and serving your own fleetd-base.msi installer for Windows
+
+Unlike the ADE Enrollment flow Autopilot does not require a signed installer so you may build a
+signed MSI containing `edge` components or, depending on your needs, build one locally from code on
+a branch you're working on. Step 1 Option A below describes the former and B describes the latter
+
+You will also need to serve the `meta.json` for the fleetd-base.msi installer, creation of which is
+described below.
+
+For Autopilot, Azure requires the Fleet server instance to have a proper domain name with some TXT/MX records added (see `/settings/integrations/automatic-enrollment/windows` on your Fleet instance).
+For that reason, currently the only way to test this flow is to use Dogfood or the QA fleet server,
+which already have this configured, or to configure an alternate server for this workflow.
+
+#### Pre-requisites
+
+- The URL of your Fleet server
+- An ngrok tunnel URL pointed at your local TUF server. In the examples below this is
+  https://tuf.fleetdm-example.ngrok.app and the TUF server is running on http://localhost:8081
+- An ngrok tunnel URL for serving the `fleetd-base.msi` installer and a properly formatted
+  `meta.json` file under the `stable/` path. In the examples below this is
+  https://installers.fleetdm-example.ngrok.app and the installers are served from http://localhost:8085
+- Perform a deployment with `FLEET_DEV_DOWNLOAD_FLEETDM_URL` set to the "installers" ngrok URL.
+
+#### Step 1 Option A: Building a signed fleetd-base.msi installer from `edge`
+
+If you want to use a signed installer, we have a [GitHub workflow](../../.github/workflows/build-fleetd-base-msi.yml)
+that can build a signed fleetd-base installer using fleetd components from any of the
+releasechannels we support. You'll most likely use `edge` since we release fleetd components
+built from an RC branch to `edge` for QA before an official release.
+
+To use the workflow, follow these steps:
+
+1. Trigger the build and codesign fleetd-base.msi workflow at https://github.com/fleetdm/fleet/actions/workflows/build-fleetd-base-msi.yml.
+2. Click the run workflow drop down and fill in `"edge"` for the first 3 fields. Fill in the ngrok URL
+  from the "Pre-requisites" above in the last field.
+3. Click the Run workflow button. This will generate two files:
+  - `meta.json`
+  - `fleetd-base.msi`
+4. Download them to your workstation.
+
+#### Step 1 Option B: Building a fleetd-base.msi installer from local components
+
+If you have changes in a branch you want to test you can build an installer locally and serve it.
+
+1. Use the ./tools/tuf/test/main.sh script to build an MSI from your branch:
+```sh
+#!/bin/bash
+SYSTEMS="windows" \
+MSI_FLEET_URL=https://[your fleet server's name] \
+MSI_TUF_URL=https://tuf.fleetdm-example.ngrok.app \
+GENERATE_MSI=1 \
+ENROLL_SECRET=[enroll secret] \
+FLEET_DESKTOP=1 \
+TUF_PORT=8081 \
+DEBUG=1 \
+./tools/tuf/test/main.sh
+```
+2. Create a meta.json with the following contents:
+```
+{
+  "fleetd_base_msi_url": "[your ngrok "installers" URL]/stable/fleetd-base.msi",
+  "fleetd_base_msi_sha256": "[sha256sum of]"
+}
+```
+3. Rename the generated fleet-osquery.msi to fleetd-base.msi
+
+#### Serving the fleetd-base.msi installer
+
+1. Create a directory named `fleetd-base-dir` and a subdirectory named `stable`. Tip: we have the `$FLEET_REPO_ROOT_DIR/tmp`
+   directory gitignored, so that's a convenient place to create the directories:
+```sh
+# From the Fleet repo root dir
+mkdir -p ./tmp/fleetd-base-dir/stable
+```
+2. Move `fleetd-base.msi` to `./tmp/fleetd-base-dir/stable`.
+3. Move `meta.json` to `./tmp/fleetd-base-dir/stable`.
+4. Start up an HTTP file server from the Fleet repo root directory using the [`tools/file-server`](../../tools/file-server/README.md) tool: `go run ./tools/file-server 8085 ./tmp/fleetd-base-dir`
+5. Start your "installers" ngrok tunnel and forward to http://localhost:8085.
+	- Example: `ngrok http --domain=installers.fleetdm-example.ngrok.app http://localhost:8085`
+6. Perform a Fleet deployment(to Dogfood, QA or your own instance) with
+   `FLEET_DEV_DOWNLOAD_FLEETDM_URL` set to the "installers" ngrok URL (if using Terraform, the environment variable is set on
+   `infrastructure/dogfood/terraform/aws-tf-module/main.tf`).
+	- Example: `FLEET_DEV_DOWNLOAD_FLEETDM_URL="https://installers.fleetdm-example.ngrok.app"`
+7. Enroll your Windows device with Autopilot. Tip: You can watch ngrok traffic via the inspect web interface url to ensure the two hosted packages are in the correct place and successfully reached by the host.
 
 ### Building and serving your own fleetd-base.msi installer for Windows
 
@@ -972,3 +1057,5 @@ We have a few servers in `tools/mdm/migration` that you can use. Follow the inst
 - Ubuntu: `sudo grep "runner=installer" /var/log/syslog` (or using `journalctl` if `syslog` is not available).
 - Fedora: `sudo grep "runner=installer" /var/log/messages` (or using `journalctl` if `syslog` is not available).
 - Windows: `grep "runner=installer" C:\Windows\system32\config\systemprofile\AppData\Local\FleetDM\Orbit\Logs\orbit-osquery.log`
+
+</initial_code>

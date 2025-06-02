@@ -118,7 +118,7 @@ const RunScriptBatchModal = ({
           info={
             <>
               You can add saved scripts{" "}
-              <a href={`/controls/scripts?team_id=${teamId}`}>here</a>.
+              <a href={`/controls/scripts?team_id=${teamId}`}>on the Scripts page</a>.
             </>
           }
         />
