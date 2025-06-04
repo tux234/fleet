@@ -170,7 +170,7 @@ interface IInstallerStatusActionsProps {
   onClickUninstallAction: (software: IHostSoftware) => void;
 }
 
-interface DisplayActionItems {
+export interface DisplayActionItems {
   install: {
     text: string;
     icon: IconNames;
@@ -181,7 +181,7 @@ interface DisplayActionItems {
   };
 }
 
-const getInstallButtonText = (status: SoftwareInstallStatus | null) => {
+export const getInstallButtonText = (status: SoftwareInstallStatus | null) => {
   switch (status) {
     case "failed_install":
       return "Retry";
@@ -195,7 +195,7 @@ const getInstallButtonText = (status: SoftwareInstallStatus | null) => {
   }
 };
 
-const getInstallButtonIcon = (status: SoftwareInstallStatus | null) => {
+export const getInstallButtonIcon = (status: SoftwareInstallStatus | null) => {
   switch (status) {
     case "failed_install":
     case "installed":
@@ -209,7 +209,9 @@ const getInstallButtonIcon = (status: SoftwareInstallStatus | null) => {
   }
 };
 
-const getUninstallButtonText = (status: SoftwareInstallStatus | null) => {
+export const getUninstallButtonText = (
+  status: SoftwareInstallStatus | null
+) => {
   switch (status) {
     case "failed_uninstall":
       return "Retry uninstall";
@@ -219,7 +221,9 @@ const getUninstallButtonText = (status: SoftwareInstallStatus | null) => {
   }
 };
 
-const getUninstallButtonIcon = (status: SoftwareInstallStatus | null) => {
+export const getUninstallButtonIcon = (
+  status: SoftwareInstallStatus | null
+) => {
   switch (status) {
     case "failed_uninstall":
       return "refresh";
